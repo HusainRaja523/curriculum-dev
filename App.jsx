@@ -418,6 +418,7 @@ doc.autoTable({
 
     doc.addPage();
     yOffset = 40;
+    doc.setFontSize(14);
     doc.text("XV List of Major Equipment/Machineries with Specification:", 40, yOffset);
     yOffset += 25;
     doc.setFontSize(11);
@@ -427,8 +428,10 @@ doc.autoTable({
 
 
     });
-    yOffset = doc.lastAutoTable.finalY + 30;
-
+    yOffset = doc.lastAutoTable.finalY + 50;
+    doc.setFontSize(14);
+    doc.text(" XVI List of Industry Experts and Faculties who contributed for this curriculum:", 40, yOffset);
+yOffset += 40;
     doc.autoTable({
       startY: yOffset,
       head: [['Expert Name', 'Designation', 'Institute']],
