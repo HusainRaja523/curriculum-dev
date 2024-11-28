@@ -1,0 +1,128 @@
+/* General Styles */
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #121212; /* Dark mode background */
+  margin: 0;
+  padding: 0;
+  color: #f5f5f5; /* Light text for better contrast */
+}
+
+.container {
+  max-width: 90%; /* Makes it responsive for smaller screens */
+  width: 2000px; /* Ensures a proper fixed width on larger screens */
+  margin: 40px auto; /* Centers the container on the page */
+  padding: 40px 30px; /* Balanced padding for both width and height */
+  background-color: #1e1e1e; /* Dark background for modern design */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4); /* A stronger shadow for depth */
+  border-radius: 16px; /* Slightly rounded corners for a sleek look */
+  border: 1px solid #2a2a2a; /* Subtle border for structure */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  padding-left: 90px;
+}
+
+/* Headings */
+h1, h2, h4 {
+  color: #00bcd4; /* Vibrant accent color */
+  margin-bottom: 16px;
+  font-weight: 700;
+}
+
+h1 {
+  font-size: 3rem;
+  text-align: center;
+}
+
+h2 {
+  font-size: 2.25rem;
+}
+
+h4 {
+  font-size: 1.75rem;
+  font-weight: 500;
+  text-align:center;
+}
+
+/* Forms */
+label {
+  display: block;
+  margin-top: 20px;
+  font-weight: 600;
+  color: #00bcd4;
+  font-size: 16px;
+}
+
+input[type="text"],
+input[type="number"],
+textarea,
+select {
+  width: 100%;
+  max-width: 600px;
+  padding: 12px 16px;
+  margin-top: 8px;
+  margin-bottom: 20px;
+  border: 1px solid #444;
+  border-radius: 10px;
+  font-size: 16px;
+  background-color: #292929;
+  color: #f5f5f5;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+textarea {
+  resize: vertical;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: #00bcd4;
+  outline: none;
+  background-color: #333;
+}
+
+/* Buttons */
+/* Buttons */
+button {
+  padding: 12px 30px;  /* Uniform padding */
+  margin: 8px 0;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  color: #fff;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  width: 200px; /* Set a fixed width for all buttons */
+  text-align: center; /* Ensure text is centered */
+}
+
+button.save {
+  background-color: #4caf50;
+}
+
+button.clear {
+  background-color: #ff9800;
+}
+
+button.close {
+  background-color: #f44336;
+}
+
+button:hover {
+  opacity: 0.85;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .container {
+    padding: 20px;
+  }
+
+  input,
+  textarea {
+    width: 100%;
+  }
+}
