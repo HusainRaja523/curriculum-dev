@@ -48,24 +48,70 @@ function App() {
       { qNo: 4, bit1: '5A4', bit2: '6A4', bit3: '6A4', bit4: '6A4', bit5: '5A4', bit6: ' ', bit7: '', options: 'C: 10 O: 10' },
       { qNo: 5, bit1: '6A4', bit2: '6A4', bit3: '6A4', bit4: ' ', bit5: ' ', bit6: ' ', bit7: ' ', options: 'C: 10 O: 10' },
       { qNo: 6, bit1: '3A6', bit2: '3A6', bit3: '3A6', bit4: ' ', bit5: ' ', bit6: ' ', bit7: ' ', options: 'C: 2 O: 3' },
-    ]
+    ],
+    columns: ["Course Outcomes", "PO1", "PO2", "PO3", "PO4", "PO5", "PO6", "PO7", "PSO1", "PSO2"],
+    rows: [
+      ["CO1", "3", "3", "3", "-", "3", "-", "-", "3", "-"],
+      ["CO2", "3", "3", "3", "3", "-", "-", "-", "3", "-"],
+      ["CO3", "3", "-", "-", "-", "-", "-", "-", "3", "-"],
+      ["CO4", "3", "3", "3", "3", "-", "-", "-", "3", "-"],
+      ["CO5", "3", "3", "3", "3", "-", "-", "-", "3", "-"],
+      ["CO6", "3", "3", "3", "-", "-", "-", "-", "3", "-"],
+    ],
+
+
   });
+
+  const [tableData, setTableData] = useState([
+    { unitNo: "1", unit: "Basics of Computer Network", hours: "8", co: "C/O", levels: "R: 0, U: 0, A: 6 /R: 0, U: 0, A: 6", totalMarks: "14,6" },
+    { unitNo: "2", unit: "Network Topologies and Networking Standard", hours: "12", co: "C/O", levels: "R: 0, U: 4, A: 6 /R: 0, U: 0, A: 6", totalMarks: "10,4" },
+    { unitNo: "3", unit: "The Reference Model", hours: "8", co: "C/O", levels: "R: 0, U: 0, A: 6 /R: 0, U: 0, A: 6", totalMarks: "8,10" },
+    { unitNo: "4", unit: "Transmission Media", hours: "10", co: "C/O", levels: "R: 0, U: 8, A: 6 /R: 0, U: 0, A: 6", totalMarks: "14,8" },
+    { unitNo: "5", unit: "Network Devices", hours: "8", co: "C/O", levels: "R: 0, U: 0, A: 10 /R: 0, U: 0, A: 6", totalMarks: "14,8" },
+    { unitNo: "6", unit: "IP Protocol and network applications", hours: "12", co: "C/O", levels: "R: 0, U: 8, A: 12 /R: 0, U: 0, A: 6", totalMarks: "10,4" },
+    { unitNo: "7", unit: "Total", hours: "48", co: "C", levels: "R=10\tU=24\tA=36", totalMarks: "70" },
+    { unitNo: "8", unit: "Total", hours: "48", co: "O", levels: "R=8\tU=12\tA=20", totalMarks: "40" },
+  ]);
 
   const [name1, setName1] = useState("");
   const [name2, setName2] = useState("");
   const [inputs, setInputs] = useState(Array(15).fill(''));
   const [inputs1, setInputs1] = useState(Array(5).fill(''));
   const [inputs2, setInputs2] = useState(Array(5).fill(''));
+  const [questionData, setQuestionData] = useState([
+    { qNo: 1, bit1: '3R2', bit2: '4R2', bit3: '4R2', bit4: '6R2', bit5: '6R2', bit6: '2R2', bit7: '2R2', options: 'C: 5 O: 7' },
+    { qNo: 2, bit1: '1U4', bit2: '1U4', bit3: '2U4', bit4: '4U4', bit5: '4U4', bit6: '', bit7: '', options: 'C: 3 O: 5' },
+    { qNo: 3, bit1: '4U4', bit2: '5U4', bit3: '5U4', bit4: '5R4', bit5: '5U4', bit6: '', bit7: '', options: 'C: 3 O: 5' },
+    { qNo: 4, bit1: '5A4', bit2: '6U4', bit3: '6A4', bit4: '6U4', bit5: '5R4', bit6: '', bit7: '', options: 'C: 3 O: 5' },
+    { qNo: 5, bit1: '1A6', bit2: '2A6', bit3: '1A6', bit4: '', bit5: '', bit6: '', bit7: '', options: 'C: 2 O: 3' },
+    { qNo: 6, bit1: '3A6', bit2: '4A6', bit3: '3A6', bit4: '', bit5: '', bit6: '', bit7: '', options: 'C: 2 O: 3' },
+  ]);
+  
 
+
+  
   const [showCourseDetails, setShowCourseDetails] = React.useState(false);
   const [showCourseOutcomes, setShowCourseOutcomes] = React.useState(false);
   const [showCourseLearning, setShowCourseLearning] = React.useState(false);
   const [showAssessmentScheme, setShowAssessmentScheme] = React.useState(false);
   const [showSelfStudyDetails, setShowSelfStudyDetails] = React.useState(false);
+  const [showMarks, setShowMarks] = React.useState(false);
   const [showReferences, setShowReferences] = React.useState(false);
   const [showEquipments, setShowEquipments] = React.useState(false);
   const [showExpert, setExpert] = React.useState(false);
   const [showPbos, setPbos] = React.useState(false);
+
+   const handleInputChange = (index, field, value) => {
+    const updatedData = [...tableData];
+    updatedData[index][field] = value; // Update the specific field
+    setTableData(updatedData); // Update state with new table data
+  };
+  const handleInputChange2 = (index, field, value) => {
+    const updatedData = [...questionData];
+    updatedData[index][field] = value;
+    setQuestionData(updatedData);
+  };
+  
 
 
 
@@ -302,57 +348,58 @@ function App() {
     doc.text("VIII Specification Table for Classroom Learning Assessment:", 40, 20);
 
     // Gap between title and table
-    yOffset = 40;  // Adjusted gap after title
+    yOffset = 100;  // Adjusted gap after title
 
     // Specification Table
+    const tableBody = tableData.map((row) => [
+      row.unitNo,
+      row.unit,
+      row.hours,
+      row.co,
+      row.levels,
+      row.totalMarks,
+    ]);
+
     doc.autoTable({
-      head: [['Unit No.', 'Units', 'Classroom Learning Hours', 'C/O', 'Levels from Cognition Process Dimension ', 'Total Marks']],
-      body: [
-        ['1', 'Basics of Computer Network', '8', 'C', 'R: 0, U: 0, A: 6 R: 0, U: 0, A: 6', '14'],
-        ['2', 'Network Topologies and Networking Standard', '12', 'O', 'R: 0, U: 4, A: 6 R: 0, U: 0, A: 6', '14'],
-        ['3', 'The Reference Model', '8', 'C', 'R: 0, U: 0, A: 6 R: 0, U: 0, A: 6', '10'],
-        ['4', 'Transmission Media', '10', 'C', 'R: 0, U: 8, A: 6 R: 0, U: 0, A: 6', '14'],
-        ['5', 'Network Devices', '8', 'C', 'R: 0, U: 0, A: 10 R: 0, U: 0, A: 6', '10'],
-        ['6', 'IP Protocol and network applications', '12', 'C', 'R: 0, U: 8, A: 12 R: 0, U: 0, A: 6', '40']
-      ],
-      margin: { top: yOffset, left: 10, right: 10 },
-      styles: { fontSize: 10, cellWidth: 'auto', overflow: 'linebreak' },
-      theme: 'grid',
+      head: [["Unit No.", "Units", "Classroom Learning Hours", "C/O", "Levels from Cognition Process Dimension", "Total Marks"]],
+      body: tableBody,
+      startY: 60,
+      theme: "grid",
     });
 
     // Space between the first table and next text (gap added here)
-    yOffset = doc.lastAutoTable.finalY + 40; // Adding a gap between the table and text
+    yOffset = doc.lastAutoTable.finalY + 70; // Adding a gap between the table and text
 
     // Adding text for the next section
     doc.text("IX Question Paper Format for Summative Assessment (SA):", 40, yOffset);
-    yOffset += 40;  // Adjusting yOffset for the next table
+    yOffset += 50;  // Adjusting yOffset for the next table
 
     // Question Paper Table
     doc.autoTable({
       startY: yOffset,
       head: [['Q. No.', 'Bit 1', 'Bit 2', 'Bit 3', 'Bit 4', 'Bit 5', 'Bit 6', 'Bit 7', 'Options']],
-      body: formData.questionData.map(item => [
-        item.qNo,
-        item.bit1,
-        item.bit2,
-        item.bit3,
-        item.bit4,
-        item.bit5,
-        item.bit6,
-        item.bit7,
-        item.options
+      body: questionData.map((row) => [
+        row.qNo,
+        row.bit1,
+        row.bit2,
+        row.bit3,
+        row.bit4,
+        row.bit5,
+        row.bit6,
+        row.bit7,
+        row.options,
       ]),
-      margin: { top: yOffset, left: 10, right: 10 },
-      styles: { fontSize: 8, cellWidth: 'auto', overflow: 'linebreak' }, // Smaller font size for the second table
+      margin: { top: 10 },
+      styles: { fontSize: 8, cellWidth: 'auto', overflow: 'linebreak' },
       theme: 'grid',
     });
-    yOffset = doc.lastAutoTable.finalY + 30;
+    yOffset = doc.lastAutoTable.finalY + 60;
 
     // ** Add Page for Industry Experts **
    
     doc.setFontSize(14);
 doc.text("X Scheme of Laboratory Formative Assessment (FA):", 40, yOffset);
-yOffset += 20; // Add spacing before the table
+yOffset += 50; // Add spacing before the table
 doc.autoTable({
   startY: yOffset,
   head: [['S.N.', 'Criteria', 'Max. Marks']],
@@ -367,27 +414,47 @@ doc.autoTable({
   styles: { fontSize: 11, cellPadding: 4 },
   margin: { top: 10, left: 40, right: 40 }
 });
-yOffset = doc.lastAutoTable.finalY + 30; // Update yOffset after the table
+doc.addPage(); // Update yOffset after the table
 
 // Add the second table: Scheme of Self-Learning Summative Assessment (SA)
 doc.setFontSize(14);
-doc.text("XI Scheme of Self-Learning Summative Assessment (SA):", 40, yOffset);
-yOffset += 20; // Add spacing before the table
+yOffset = 60;
+doc.setFontSize(14);
+doc.text("XI Scheme of Self-Learning Summative Assessment (SA):", 14, yOffset);
+yOffset += 40; // Add spacing before the table
+
 doc.autoTable({
   startY: yOffset,
   head: [['S.N.', 'Criteria', 'Max. Marks']],
   body: [
     ['1', 'a', '5'],
     ['2', 'b', '5'],
-    ['3', 'c', '10'],
-    ['4', 'd', '5'],
+    ['3', 'c', '10'],    ['4', 'd', '5'],
     ['', 'TOTAL', '25']
   ],
   theme: 'grid',
   styles: { fontSize: 11, cellPadding: 4 },
-  margin: { top: 10, left: 40, right: 40 }
+  margin: { top: 10, left: 14, right: 14 },
 });
-yOffset = doc.lastAutoTable.finalY + 30;
+
+// Update yOffset after the first table
+yOffset = doc.lastAutoTable.finalY + 100;
+
+// Add the second table: COs-POs/PSOs Mapping Matrix
+doc.setFontSize(14);
+doc.text("XII COs-POs/PSOs Mapping Matrix:", 14, yOffset);
+yOffset += 40; // Add spacing before the table
+
+doc.autoTable({
+  startY: yOffset,
+  head: [formData.columns], // Table headers
+  body: formData.rows, // Table rows
+  theme: 'grid',
+  styles: { fontSize: 11, cellPadding: 4 },
+  margin: { top: 10, left: 14, right: 14 },
+});
+
+
 doc.addPage();
 doc.text("XIII Textbooks References:", 40, 20);
 
@@ -502,6 +569,8 @@ yOffset += 40;
         <h1> Government Polytechnnic, Nagpur</h1> <h4> (An Autonomous Institute of Govt. of Maharashtra)
           Near Mangalwari Bazar, Sadar, Nagpur-440001 </h4>
         <h2>Course Outline</h2>
+        
+
 
         {viewLaboratory ? (
           <LaboratoryLearning onSave={handleLabContentChange} />
@@ -512,10 +581,11 @@ yOffset += 40;
         <button onClick={() => setShowCourseOutcomes(!showCourseOutcomes)}>Toggle Course Outcomes</button>
         <button onClick={() => setShowCourseLearning(!showCourseLearning)}>Toggle Course Learning Scheme</button>
         <button onClick={() => setShowAssessmentScheme(!showAssessmentScheme)}>Toggle Assessment Scheme</button>
-        <button onClick={() => setShowSelfStudyDetails(!showSelfStudyDetails)}>Toggle Self-Study Details</button>
+        <button onClick={() => setShowSelfStudyDetails(!showSelfStudyDetails)}>Toggle Classroom Learning Contents and Self-Study Details</button>
         <button onClick={() => setShowReferences(!showReferences)}>Toggle References</button>
         <button onClick={() => setShowEquipments(!showEquipments)}>Toggle Equipments/Machineries</button>
         <button onClick={() => setExpert(!showExpert)}>Toggle Experts</button>
+        <button onClick={() => setShowMarks(!showMarks)}>Toggle Marks Input</button>
 
 
 
@@ -597,19 +667,21 @@ yOffset += 40;
             
             {/* Unit Content Inputs */}
             {showSelfStudyDetails && ( <>
+            <h2>Ennter CLassroom Learning Details :</h2>
 
               {formData.units.map((unit, index) => (
               <div key={index}>
+              
                 <input
                   type="text"
                   id={`unit${index + 1}_unitName`}
-                  placeholder="unit name and SLO"
+                  placeholder="Unit name and Self Learning Outcomes"
                   onChange={handleChange}
                 />
                 <input
                   type="text"
                   id={`unit${index + 1}_SLO`}
-                  placeholder="unit contents "
+                  placeholder="Unit Contents "
                   onChange={handleChange}
                 />
               </div>
@@ -671,6 +743,7 @@ placeholder={`Major Equipments  ${index + 1}`}
            )}
 
 { showExpert && ( <>
+<h2>Enter Expert details (name,designationn and Institute)</h2>
   {/* Industry Experts Inputs */}
   {formData.industryExperts.map((expert, index) => (
               <div key={index}>
@@ -709,6 +782,85 @@ placeholder={`Major Equipments  ${index + 1}`}
         )}
 
         {/* Buttons to view components */}
+
+
+      { showMarks && ( <>
+
+
+        <h1>Enter MArks Specification Table data</h1>
+      <table border="1" style={{ width: "100%", borderCollapse: "collapse" }}>
+        <thead>
+          <tr>
+            <th>Unit No.</th>
+            <th>Units</th>
+            <th>Classroom Learning Hours</th>
+            <th>C/O</th>
+            <th>Levels from Cognition Process Dimension</th>
+            <th>Total Marks</th>
+          </tr>
+        </thead>
+        <tbody>
+          {tableData.map((row, index) => (
+            <tr key={index}>
+              {Object.keys(row).map((key, idx) => (
+                <td key={idx}>
+                  <input
+                    type="text"
+                    value={row[key] || ""} // Fallback to empty string to avoid undefined/null issues
+                    onChange={(e) => handleInputChange(index, key, e.target.value)} // Update state on input change
+                    style={{ width: "100%", border: "none" }}
+                  />
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <br></br>
+      <h1>Enter Question Paper Format Table</h1>
+      <table>
+        <thead>
+          <tr>
+            <th>Q. No.</th>
+            <th>Bit 1</th>
+            <th>Bit 2</th>
+            <th>Bit 3</th>
+            <th>Bit 4</th>
+            <th>Bit 5</th>
+            <th>Bit 6</th>
+            <th>Bit 7</th>
+            <th>Options</th>
+          </tr>
+        </thead>
+        <tbody>
+          {questionData.map((row, index) => (
+            <tr key={index}>
+              <td>{row.qNo}</td>
+              {Object.keys(row)
+                .filter((key) => key !== 'qNo')
+                .map((key) => (
+                  <td key={key}>
+                    <input
+                      type="text"
+                      value={row[key]}
+                      onChange={(e) => handleInputChange2(index, key, e.target.value)}
+                    />
+                  </td>
+                ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+
+
+
+
+
+
+
+      </>)}
+
        
         <button onClick={generatePDF}>Generate PDF</button>
       
