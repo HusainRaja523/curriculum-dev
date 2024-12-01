@@ -234,16 +234,22 @@ function App() {
 
     yOffset += 30;
 
-    doc.setFontSize(14);
-    doc.text("II Course Outcomes (COs):", 40, yOffset);
-    yOffset += 30;
-    doc.setFontSize(12);
-    for (let i = 1; i <= 6; i++) {
-      if (formData[`co${i}`]) {
-        doc.text(`CO${i}: ${formData[`co${i}`]}`, 40, yOffset);
-        yOffset += 25;
-      }
-    }
+doc.setFontSize(14);
+doc.text("II Course Outcomes (COs):", 40, yOffset);
+yOffset += 30;
+
+doc.setFontSize(12);
+const maxWidth1 = 500; // Set the maximum width for text lines
+for (let i = 1; i <= 6; i++) {
+  if (formData[`co${i}`]) {
+    const lines = doc.splitTextToSize(`CO${i}: ${formData[`co${i}`]}`, maxWidth1);
+    lines.forEach((line) => {
+      doc.text(line, 40, yOffset);
+      yOffset += 10; // Adjust line spacing as needed
+    });
+    yOffset += 30; // Space between different COs
+  }
+}
     yOffset += 30;
 
     // Add Learning Scheme
@@ -328,18 +334,20 @@ function App() {
 
     // Update the yOffset for any subsequent content
     doc.addPage();
-    yOffset = 40;
+yOffset = 70;
 
-    doc.text("VII Self-Study Learning g (SLO in Cognitive/Psychomotor Affective Domain) : ", 50, 40);
+doc.text("VII Self-Study Learning (SLO in Cognitive/Psychomotor Affective Domain): ", 50, yOffset);
 
-    doc.setFontSize(11);
-    yOffset += 40;
-    inputs.forEach((input, i) => {
-      doc.text(`${i + 1}. ${input}`, 30, yOffset);
-      yOffset += 40;
+doc.setFontSize(11);
 
+yOffset += 50; // Adjust spacing after the title
 
-    });
+inputs.forEach((input, i) => {
+  // Split text into lines that fit within a width of 150
+  const lines = doc.splitTextToSize(`${i + 1}. ${input}`, 500);
+  doc.text(lines, 30, yOffset); // Render the split text at the specified position
+  yOffset += 10 * lines.length + 32; // Adjust yOffset dynamically based on the number of lines
+});
 
 
     doc.setFontSize(14);
@@ -578,21 +586,8 @@ yOffset += 40;
           <>
           {/* Buttons to show input sections */}
         <button onClick={() => setShowCourseDetails(!showCourseDetails)}>Toggle Course Details</button>
-        <button onClick={() => setShowCourseOutcomes(!showCourseOutcomes)}>Toggle Course Outcomes</button>
-        <button onClick={() => setShowCourseLearning(!showCourseLearning)}>Toggle Course Learning Scheme</button>
-        <button onClick={() => setShowAssessmentScheme(!showAssessmentScheme)}>Toggle Assessment Scheme</button>
-        <button onClick={() => setShowSelfStudyDetails(!showSelfStudyDetails)}>Toggle Classroom Learning Contents and Self-Study Details</button>
-        <button onClick={() => setShowReferences(!showReferences)}>Toggle References</button>
-        <button onClick={() => setShowEquipments(!showEquipments)}>Toggle Equipments/Machineries</button>
-        <button onClick={() => setExpert(!showExpert)}>Toggle Experts</button>
-        <button onClick={() => setShowMarks(!showMarks)}>Toggle Marks Input</button>
-
-
-
-
-
-            {/* Course Details */}
-           {showCourseDetails && (
+         {/* Course Details */}
+         {showCourseDetails && (
             <>
             <h2>Enter course details : </h2>
             
@@ -604,6 +599,11 @@ yOffset += 40;
                  
          </>
           )} 
+
+
+        
+        <button onClick={() => setShowCourseOutcomes(!showCourseOutcomes)}>Toggle Course Outcomes</button>
+           
 
 
 { showCourseOutcomes && (
@@ -624,6 +624,11 @@ yOffset += 40;
 
 
 
+
+
+        
+        <button onClick={() => setShowCourseLearning(!showCourseLearning)}>Toggle Course Learning Scheme</button>
+        
             {/* Criteria Inputs */}
             {showCourseLearning && (
               <>
@@ -646,8 +651,14 @@ yOffset += 40;
 
               </>
             )}
-           
 
+
+
+
+
+
+        <button onClick={() => setShowAssessmentScheme(!showAssessmentScheme)}>Toggle Assessment Scheme</button>
+        
             {/* Self-Learning Inputs */}
             {showAssessmentScheme && (
               <>
@@ -664,9 +675,19 @@ yOffset += 40;
               </>
 
             )}
-            
-            {/* Unit Content Inputs */}
-            {showSelfStudyDetails && ( <>
+
+
+
+
+
+
+
+
+        <button onClick={() => setShowSelfStudyDetails(!showSelfStudyDetails)}>Toggle Classroom Learning Contents and Self-Study Details</button>
+
+
+          {/* Unit Content Inputs */}
+          {showSelfStudyDetails && ( <>
             <h2>Ennter CLassroom Learning Details :</h2>
 
               {formData.units.map((unit, index) => (
@@ -701,30 +722,41 @@ yOffset += 40;
 
             </>
             ) }
+
+
+
+
+
+
+        <button onClick={() => setShowReferences(!showReferences)}>Toggle References</button>
+
+         
+
+        { showReferences && (<>
             
-
-           { showReferences && (<>
-            
-                      {/* E-References Inputs */}
-                      <h2>Enter References</h2>
-                      {formData.eReferences.map((reference, index) => (
-              <input key={index} type="text" id={`reference${index + 1}`} placeholder="Reference" onChange={handleChange} />
-            ))}
-            <h2>Enter E-Referennces:</h2>
-            {inputs2.map((input, index) => (
-              <input
-                key={index}
-                type="text"
-                value={input}
-                onChange={(e) => handleChange3(index, e.target.value)}
-                placeholder={`E-References ${index + 1}`}
-              />
-            ))}
-           
+            {/* E-References Inputs */}
+            <h2>Enter References</h2>
+            {formData.eReferences.map((reference, index) => (
+    <input key={index} type="text" id={`reference${index + 1}`} placeholder="Reference" onChange={handleChange} />
+  ))}
+  <h2>Enter E-Referennces:</h2>
+  {inputs2.map((input, index) => (
+    <input
+      key={index}
+      type="text"
+      value={input}
+      onChange={(e) => handleChange3(index, e.target.value)}
+      placeholder={`E-References ${index + 1}`}
+    />
+  ))}
 
 
-            </>)}
-           { showEquipments && ( <>
+</>)}
+
+        <button onClick={() => setShowEquipments(!showEquipments)}>Toggle Equipments/Machineries</button>
+
+
+        { showEquipments && ( <>
             <h2>Enter List of Major Equipments/Machineries </h2>
 
 
@@ -742,6 +774,9 @@ placeholder={`Major Equipments  ${index + 1}`}
            </>
            )}
 
+
+
+        <button onClick={() => setExpert(!showExpert)}>Toggle Experts</button>
 { showExpert && ( <>
 <h2>Enter Expert details (name,designationn and Institute)</h2>
   {/* Industry Experts Inputs */}
@@ -754,7 +789,6 @@ placeholder={`Major Equipments  ${index + 1}`}
 
               
             ))}
-
 
 <label>
               Enter First Name (HOD & Chairman PBOS, CE):
@@ -775,97 +809,81 @@ placeholder={`Major Equipments  ${index + 1}`}
             </label>
 </>
 )}
+        <button onClick={() => setShowMarks(!showMarks)}>Toggle Marks Input</button>
+        { showMarks && ( <>
 
+
+<h1>Enter MArks Specification Table data</h1>
+<table border="1" style={{ width: "100%", borderCollapse: "collapse" }}>
+<thead>
+  <tr>
+    <th>Unit No.</th>
+    <th>Units</th>
+    <th>Classroom Learning Hours</th>
+    <th>C/O</th>
+    <th>Levels from Cognition Process Dimension</th>
+    <th>Total Marks</th>
+  </tr>
+</thead>
+<tbody>
+  {tableData.map((row, index) => (
+    <tr key={index}>
+      {Object.keys(row).map((key, idx) => (
+        <td key={idx}>
+          <input
+            type="text"
+            value={row[key] || ""} // Fallback to empty string to avoid undefined/null issues
+            onChange={(e) => handleInputChange(index, key, e.target.value)} // Update state on input change
+            style={{ width: "100%", border: "none" }}
+          />
+        </td>
+      ))}
+    </tr>
+  ))}
+</tbody>
+</table>
+<br></br>
+<h1>Enter Question Paper Format Table</h1>
+<table>
+<thead>
+  <tr>
+    <th>Q. No.</th>
+    <th>Bit 1</th>
+    <th>Bit 2</th>
+    <th>Bit 3</th>
+    <th>Bit 4</th>
+    <th>Bit 5</th>
+    <th>Bit 6</th>
+    <th>Bit 7</th>
+    <th>Options</th>
+  </tr>
+</thead>
+<tbody>
+  {questionData.map((row, index) => (
+    <tr key={index}>
+      <td>{row.qNo}</td>
+      {Object.keys(row)
+        .filter((key) => key !== 'qNo')
+        .map((key) => (
+          <td key={key}>
+            <input
+              type="text"
+              value={row[key]}
+              onChange={(e) => handleInputChange2(index, key, e.target.value)}
+            />
+          </td>
+        ))}
+    </tr>
+  ))}
+</tbody>
+</table>
+</>)}
+  
 <button onClick={() => setViewLaboratory(true)}>Toggle Laboratory Learning Content</button>
            
           </>
         )}
-
-        {/* Buttons to view components */}
-
-
-      { showMarks && ( <>
-
-
-        <h1>Enter MArks Specification Table data</h1>
-      <table border="1" style={{ width: "100%", borderCollapse: "collapse" }}>
-        <thead>
-          <tr>
-            <th>Unit No.</th>
-            <th>Units</th>
-            <th>Classroom Learning Hours</th>
-            <th>C/O</th>
-            <th>Levels from Cognition Process Dimension</th>
-            <th>Total Marks</th>
-          </tr>
-        </thead>
-        <tbody>
-          {tableData.map((row, index) => (
-            <tr key={index}>
-              {Object.keys(row).map((key, idx) => (
-                <td key={idx}>
-                  <input
-                    type="text"
-                    value={row[key] || ""} // Fallback to empty string to avoid undefined/null issues
-                    onChange={(e) => handleInputChange(index, key, e.target.value)} // Update state on input change
-                    style={{ width: "100%", border: "none" }}
-                  />
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <br></br>
-      <h1>Enter Question Paper Format Table</h1>
-      <table>
-        <thead>
-          <tr>
-            <th>Q. No.</th>
-            <th>Bit 1</th>
-            <th>Bit 2</th>
-            <th>Bit 3</th>
-            <th>Bit 4</th>
-            <th>Bit 5</th>
-            <th>Bit 6</th>
-            <th>Bit 7</th>
-            <th>Options</th>
-          </tr>
-        </thead>
-        <tbody>
-          {questionData.map((row, index) => (
-            <tr key={index}>
-              <td>{row.qNo}</td>
-              {Object.keys(row)
-                .filter((key) => key !== 'qNo')
-                .map((key) => (
-                  <td key={key}>
-                    <input
-                      type="text"
-                      value={row[key]}
-                      onChange={(e) => handleInputChange2(index, key, e.target.value)}
-                    />
-                  </td>
-                ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-
-
-
-
-
-
-
-
-      </>)}
-
-       
-        <button onClick={generatePDF}>Generate PDF</button>
-      
-
-      
+        <button onClick={generatePDF}>Generate PDF</button>   
       </div>
     </div>
   );
